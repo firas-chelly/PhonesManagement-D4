@@ -6,18 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import com.firas.telephones.entities.Telephone;
 import com.firas.telephones.service.TelephoneService;
 
 @SpringBootApplication
-public class TelephonesApplication /*implements CommandLineRunner*/ {
+public class TelephonesApplication implements CommandLineRunner {
 	
 	@Autowired
 	TelephoneService telephoneService;
+	@Autowired
+	private RepositoryRestConfiguration repositoryRestConfiguration;
 
 	public static void main(String[] args) {
 		SpringApplication.run(TelephonesApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		repositoryRestConfiguration.exposeIdsFor(Telephone.class);		
 	}
 	
 	/*@Override

@@ -5,10 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,24 +26,21 @@ public class TelephoneController {
 	TelephoneService telephoneService;
 	
 	@RequestMapping("/showCreate")
-	public String showCreate()
+	public String showCreate(ModelMap modelMap)
 	{
+	modelMap.addAttribute("telephone", new Telephone());
 	return "createTelephone";
 	}
 	
 	@RequestMapping("/saveTelephone")
-	public String saveTelephone(@ModelAttribute("telephone") Telephone telephone,
-								@RequestParam("date") String date,ModelMap modelMap) throws ParseException
-	
+	public String saveTelephone(@Valid Telephone telephone,BindingResult bindingResult)/*,ModelMap modelMap*/
+															
 	{
-	//conversion de la date
-	 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-	 Date dateCreation = dateformat.parse(String.valueOf(date));
-	 telephone.setDateCreation(dateCreation);
-
-	Telephone saveTelephone = telephoneService.saveTelephone(telephone);
+	/*Telephone saveTelephone = telephoneService.saveTelephone(telephone);
 	String msg ="Telephone enregistré avec Id "+saveTelephone.getIdTel();
-	modelMap.addAttribute("msg", msg);
+	modelMap.addAttribute("msg", msg);*/
+	if (bindingResult.hasErrors()) return "createTelephone";
+	telephoneService.saveTelephone(telephone);
 	return "createTelephone";
 	}
 	

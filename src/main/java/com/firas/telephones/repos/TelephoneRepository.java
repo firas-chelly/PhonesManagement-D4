@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.firas.telephones.entities.Company;
 import com.firas.telephones.entities.Telephone;
 
+@RepositoryRestResource(path = "rest")
 public interface TelephoneRepository extends JpaRepository<Telephone, Long> {
 	
 	List<Telephone> findByMarqueTel(String marque);
